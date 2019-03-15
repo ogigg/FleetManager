@@ -1,10 +1,83 @@
-<div class='container-fluid'>
-  <div class='row'>
-    <div class='col-sm-3'>
-      <app-nav-menu></app-nav-menu>
-    </div>
-    <div class='col-sm-9 body-content'>
-      <router-outlet></router-outlet>
-    </div>
-  </div>
+<h1>Fleet Manager</h1>
+
+<agm-map [latitude]="lat" [longitude]="lng" [mapTypeId]="mapType" [zoom]=14>
+  <!-- <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+  <agm-marker [latitude]="lat2" [longitude]="lng2"></agm-marker> -->
+  <agm-polyline strokeColor="red" strokeOpacity=0.5 strokeWeight=5>
+    <!-- <agm-polyline-point [latitude]="lat" [longitude]="lng"></agm-polyline-point>
+    <agm-polyline-point [latitude]="lat2" [longitude]="lng2"></agm-polyline-point> -->
+    <agm-polyline-point [latitude]=52.409710 [longitude]=16.955353></agm-polyline-point> <!--Rondo srodka-->
+    <agm-polyline-point [latitude]=52.409730 [longitude]=16.959008></agm-polyline-point>
+    <agm-polyline-point [latitude]=52.408938 [longitude]=16.961669></agm-polyline-point>
+    <agm-polyline-point [latitude]=52.409505 [longitude]=16.980261></agm-polyline-point>
+    <agm-polyline-point [latitude]=52.411737 [longitude]=16.978845></agm-polyline-point>
+    <agm-polyline-point [latitude]=52.411586 [longitude]=16.983694></agm-polyline-point>
+
+</agm-polyline>
+</agm-map>
+<button mat-raised-button (click)="onSatelite()">Satelita</button>
+<button mat-raised-button (click)="onHybrid()">Hybryda</button>
+<button mat-raised-button (click)="onRoadMap()">Domyslna</button>
+<h3>Basic Buttons</h3>
+<div class="example-button-row">
+  <button mat-button>Basic</button>
+  <button mat-button color="primary">Primary</button>
+  <button mat-button color="accent">Accent</button>
+  <button mat-button color="warn">Warn</button>
+  <button mat-button disabled>Disabled</button>
+  <a mat-button routerLink=".">Link</a>
+</div>
+
+<h3>Raised Buttons</h3>
+<div class="example-button-row">
+  <button mat-raised-button>Basic</button>
+  <button mat-raised-button color="primary">Primary</button>
+  <button mat-raised-button color="accent">Accent</button>
+  <button mat-raised-button color="warn">Warn</button>
+  <button mat-raised-button disabled>Disabled</button>
+  <a mat-raised-button routerLink=".">Link</a>
+</div>
+
+<h3>Stroked Buttons</h3>
+<div class="example-button-row">
+  <button mat-stroked-button>Basic</button>
+  <button mat-stroked-button color="primary">Primary</button>
+  <button mat-stroked-button color="accent">Accent</button>
+  <button mat-stroked-button color="warn">Warn</button>
+  <button mat-stroked-button disabled>Disabled</button>
+  <a mat-stroked-button routerLink=".">Link</a>
+</div>
+
+<h3>Flat Buttons</h3>
+<div class="example-button-row">
+  <button mat-flat-button>Basic</button>
+  <button mat-flat-button color="primary">Primary</button>
+  <button mat-flat-button color="accent">Accent</button>
+  <button mat-flat-button color="warn">Warn</button>
+  <button mat-flat-button disabled>Disabled</button>
+  <a mat-flat-button routerLink=".">Link</a>
+</div>
+
+
+
+<h3>Fab Buttons</h3>
+<div class="example-button-row">
+  <button mat-fab>Basic</button>
+  <button mat-fab color="primary">Primary</button>
+  <button mat-fab color="accent">Accent</button>
+  <button mat-fab color="warn">Warn</button>
+  <button mat-fab disabled>Disabled</button>
+
+  <a mat-fab routerLink=".">Link</a>
+</div>
+
+<h3>Mini Fab Buttons</h3>
+<div class="example-button-row">
+  <button mat-mini-fab>Basic</button>
+  <button mat-mini-fab color="primary">Primary</button>
+  <button mat-mini-fab color="accent">Accent</button>
+  <button mat-mini-fab color="warn">Warn</button>
+  <button mat-mini-fab disabled>Disabled</button>
+
+  <a mat-mini-fab routerLink=".">Link</a>
 </div>
