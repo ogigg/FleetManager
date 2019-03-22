@@ -1,3 +1,5 @@
+import { GPSCoordinates } from './gpsCoordinates';
+import { GpsService } from './gps.service';
 import { MapsService } from './maps.service';
 import { Component } from '@angular/core';
 import 'hammerjs';
@@ -7,6 +9,8 @@ import 'hammerjs';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
+
 export class AppComponent {
   title = 'Fleet Manager';
   mapType: String ="roadmap";
@@ -16,9 +20,15 @@ export class AppComponent {
   lat2: Number;
   lng2: Number;
   location: Object ="";
+  coordinates: GPSCoordinates[]=[];
 
-  constructor(private map: MapsService) {
+  constructor(private map: MapsService, private gpsService: GpsService) {
 
+  }
+
+  onGetAllGPS(){
+    this.gpsService.getCoordinates().subscribe(r=>console.log(r)
+    )
   }
   onSatelite(){
     this.mapType="satellite"
@@ -33,6 +43,7 @@ export class AppComponent {
     console.log(this.mapType)
   }
   ngOnInit(){
+    this.onGetAllGPS();
     this.lat=52.4173;
     this.lng=16.9647;
     this.lat2=52.423;
