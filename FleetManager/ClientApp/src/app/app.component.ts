@@ -22,12 +22,13 @@ export class AppComponent {
   location: Object ="";
   coordinates: GPSCoordinates[]=[];
   carCoordinates: GPSCoordinates[][]=[];
-
+  randomColorsArray : String[]=[];
   constructor(private map: MapsService, private gpsService: GpsService) {
 
   }
 
   onGetAllGPS(){
+
     this.gpsService.getCoordinates().subscribe((r:any)=>{
       r.forEach(gps => {
         this.coordinates.push({latitude:gps.latitude,longitude:gps.longitude,carId:gps.carId});
@@ -35,6 +36,7 @@ export class AppComponent {
       this.fillCarArray();
     })
     console.log(this.coordinates)
+
   }
   fillCarArray(){
     //Funkcja wypelnia dwuwymiarowa tabele carCoordinates, przypisujac kazda tabele jednemu autu
@@ -49,7 +51,14 @@ export class AppComponent {
       }
     })
     console.log(this.carCoordinates)
+
+    for(let i=0;i<this.carCoordinates.length;i++){
+      this.randomColorsArray.push('#'+Math.floor(Math.random()*16777215).toString(16));
+    }
+
+     console.log(this.randomColorsArray)
   }
+
   isCarInArray(carId:Number){ 
     //Funkcja sprawdza czy dla auta o podanym Id istnieje już tabela zawierająca współrzędne tego auta,
     //jesli tak, zwraca jej indeks, a jesli nie zwraca -1
@@ -75,8 +84,10 @@ export class AppComponent {
   onHybrid(){
     this.mapType="hybrid"
     console.log(this.mapType)
+    
   }
   ngOnInit(){
     this.onGetAllGPS();
+
   }
 }

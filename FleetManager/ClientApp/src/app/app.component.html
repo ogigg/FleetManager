@@ -1,14 +1,14 @@
 <h1>Fleet Manager</h1>
 
-<agm-map [latitude]=52.40973 [longitude]=16.955353 [mapTypeId]="mapType" [zoom]=10>
+<agm-map [latitude]=52.40973 [longitude]=16.955353 [mapTypeId]="mapType" [zoom]=9>
   <!-- <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
   <agm-marker [latitude]="lat2" [longitude]="lng2"></agm-marker> -->
 
-  <agm-polyline  strokeColor="red" strokeOpacity=0.5 strokeWeight=5>
-    
+  <agm-polyline *ngFor="let car of carCoordinates; let in = index" [strokeColor]= "randomColorsArray[in]" strokeOpacity=0.8 strokeWeight=5>
+
     <!-- <agm-polyline-point [latitude]="lat" [longitude]="lng"></agm-polyline-point>
     <agm-polyline-point [latitude]="lat2" [longitude]="lng2"></agm-polyline-point> -->
-    <agm-polyline-point *ngFor="let coordinate of coordinates" [latitude]="coordinate.latitude" [longitude]="coordinate.longitude"></agm-polyline-point>     
+    <agm-polyline-point *ngFor="let coordinate of carCoordinates[in]" [latitude]="coordinate.latitude" [longitude]="coordinate.longitude"></agm-polyline-point>     
 
 </agm-polyline>
 </agm-map>
