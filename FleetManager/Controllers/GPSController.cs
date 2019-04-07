@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FleetManager.Data;
 using FleetManager.Models;
+using FleetManager.Resources;
 
 namespace FleetManager.Controllers
 {
@@ -14,21 +16,25 @@ namespace FleetManager.Controllers
     [ApiController]
     public class GPSController : ControllerBase
     {
+        private readonly IMapper _mapper;
         private readonly ApplicationDbContext _context;
 
-        public GPSController(ApplicationDbContext context)
+        public GPSController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/GPS
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GPSCoordinates>>> GetAllGpsCoordinateses()
+        public async Task<ActionResult<IEnumerable<GPSCoordinatesResource>>> GetAllGpsCoordinateses()
         {
-            return await _context.GpsCoordinateses.ToListAsync();
+            var gpsList = await _context.GpsCoordinateses.ToListAsync();
+ 
+            return _mapper.Map<List<GPSCoordinates>, List<GPSCoordinatesResource>>(gpsList);
+
         }
 
-        // GET: api/GPS/5
         [HttpGet("{id}")]
         public async Task<ActionResult<GPSCoordinates>> GetGPSCoordinates(int id)
         {
@@ -46,10 +52,13 @@ namespace FleetManager.Controllers
 
         // POST: api/GPS
         [HttpPost]
-        public async Task<ActionResult<GPSCoordinates>> PostGPSCoordinates(GPSCoordinates gpsCoortinates)
+        public async Task<ActionResult<GPSCoordinates>> PostGPSCoordinates(GPSCoordinatesResource gpsCoortinates)
         {
             gpsCoortinates.TimeStamp=DateTime.Now;
-            _context.GpsCoordinateses.Add(gpsCoortinates);
+            GPSCoordinates gpsDb = _mapper.Map<GPSCoordinates>(gpsCoortinates);
+            gpsDb.CarId = gpsCoortinates.CarId;
+            gpsDb.Car = await _context.Cars.FindAsync(gpsCoortinates.CarId);
+            _context.GpsCoordinateses.Add(gpsDb);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetGPSCoordinates", new { id = gpsCoortinates.Id }, gpsCoortinates);

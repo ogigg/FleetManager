@@ -1,3 +1,6 @@
 export class GPSCoordinates {
-    constructor(private latitude: Number, private longitude: Number) {}
+  
+  public latitude: Number;
+  public longitude: Number;
+  public carId: number;
   }
