@@ -1,3 +1,4 @@
+import { MaterialModule } from './materials';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -10,7 +11,10 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCheckboxModule} from '@angular/material';
+import {MatButtonModule, MatCheckboxModule, MatFormFieldModule} from '@angular/material';
+import {MatToolbarModule} from '@angular/material/toolbar';
+
+
 
 @NgModule({
   declarations: [
@@ -34,9 +38,14 @@ import {MatButtonModule, MatCheckboxModule} from '@angular/material';
     }),
     BrowserAnimationsModule,
     MatButtonModule, 
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatToolbarModule,
+    MaterialModule
+    
+    
     
   ],
+
   providers: [],
   bootstrap: [AppComponent]
 })

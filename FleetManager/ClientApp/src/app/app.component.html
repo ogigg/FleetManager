@@ -1,17 +1,63 @@
-<h1>Fleet Manager</h1>
-
+<!-- <h1>Fleet Manager</h1> -->
+<mat-toolbar>
+    <span>Fleet Manager</span>
+  </mat-toolbar>
+<div class="row">
+    <div class="column">
+ 
 <agm-map [latitude]=52.40973 [longitude]=16.955353 [mapTypeId]="mapType" [zoom]=9>
-  <!-- <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-  <agm-marker [latitude]="lat2" [longitude]="lng2"></agm-marker> -->
 
-  <agm-polyline *ngFor="let car of carCoordinates; let in = index" [strokeColor]= "randomColorsArray[in]" strokeOpacity=0.8 strokeWeight=5>
 
+  <agm-polyline *ngFor="let car of cars; let in = index" [strokeColor]= "car.color" strokeOpacity=0.8 strokeWeight=5>
+      <agm-marker
+      [latitude]= "car.lastLatitude"
+      [longitude]="car.lastLongitude"
+      [iconUrl]="
+      {url: './../assets/Images/car_icon.png',
+      scaledSize: {
+        width: 40,height: 40
+      }}"></agm-marker>
     <!-- <agm-polyline-point [latitude]="lat" [longitude]="lng"></agm-polyline-point>
     <agm-polyline-point [latitude]="lat2" [longitude]="lng2"></agm-polyline-point> -->
-    <agm-polyline-point *ngFor="let coordinate of carCoordinates[in]" [latitude]="coordinate.latitude" [longitude]="coordinate.longitude"></agm-polyline-point>     
+    <agm-polyline-point *ngFor="let coordinate of cars[in].gpsCoordinates" [latitude]="coordinate.latitude"
+     [longitude]="coordinate.longitude"></agm-polyline-point>     
 
 </agm-polyline>
 </agm-map>
 <button mat-raised-button (click)="onSatelite()">Satelita</button>
 <button mat-raised-button (click)="onHybrid()">Hybryda</button>
 <button mat-raised-button (click)="onRoadMap()">Domyslna</button>
+</div>
+<div class="column" width=30%>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          MAN CS.430
+        </mat-panel-title>
+        <mat-panel-description>
+          Type your name and age
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+  
+      <mat-form-field>
+        <input matInput placeholder="First name">
+      </mat-form-field>
+  
+      <mat-form-field>
+        <input matInput placeholder="Age">
+      </mat-form-field>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+
+
+
+
+
+
+
+
+
+</div>
+</div>
