@@ -1,6 +1,6 @@
 export class GPSCoordinates {
   
-  public latitude: Number;
-  public longitude: Number;
+  public latitude: number;
+  public longitude: number;
   public carId: number;
   }

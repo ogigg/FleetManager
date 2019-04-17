@@ -2,11 +2,12 @@ import { GPSCoordinates } from './gpsCoordinates';
 
 export class CarData {
   
-  public lastLatitude: Number;
-  public lastLongitude: Number;
-  public carId: number;
-  public carName: String;
-  public gpsCoordinates : GPSCoordinates[];
-  public color: String;
-  public isActive: Boolean;
+  public LastLatitude: Number;
+  public LastLongitude: Number;
+  public CarId: number;
+  public CarName: String;
+  public GPSCoordinates : GPSCoordinates[];
+  public Color: String;
+  public IsActive: Boolean;
+  public Distance: number;
   }
