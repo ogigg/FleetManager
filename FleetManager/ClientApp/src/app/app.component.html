@@ -5,7 +5,7 @@
 <div class="row">
     <div class="column">
  
-<agm-map [latitude]=52.40973 [longitude]=16.955353 [mapTypeId]="mapType" [zoom]=9>
+<agm-map [latitude]="focusLatitude" [longitude]="focusLongitude" [mapTypeId]="mapType" [zoom]=9 usePanning=true>
 
 
   <agm-polyline *ngFor="let car of cars; let in = index" [strokeColor]= "car.Color" 
@@ -32,9 +32,9 @@
 <button mat-raised-button (click)="onRoadMap()">Domyslna</button>
 </div>
 
-<div class="column" width=30%>
+<div class="column">
   <mat-accordion>
-    <mat-expansion-panel *ngFor="let car of cars; let in = index" (opened)="car.IsActive = true" (closed)="car.IsActive = false">
+    <mat-expansion-panel *ngFor="let car of cars; let in = index" (opened)="setCarActive(car)" (closed)="car.IsActive = false">
       <mat-expansion-panel-header>
         <mat-panel-title>
           {{car.CarName}}
@@ -45,17 +45,25 @@
       </mat-expansion-panel-header>
   
       <mat-panel-description>
-        Przejechany dystans: {{car.Distance | number}} km,
-        ostatnie wspolrzedne: {{car.LastLatitude | number: '2.6'}}, {{car.LastLongitude | number: '2.6'}}
+        <div class="container">
+            Przejechany dystans: {{car.Distance | number}} km
+            Ostatnie wspolrzedne: {{car.LastLatitude | number: '2.6'}}, {{car.LastLongitude | number: '2.6'}}
+          <div class="row">
+            <div class="col-sm-9">
+            <canvas  baseChart
+                [data]="pieChartData"
+                [labels]="pieChartLabels"
+                [chartType]="pieChartType"
+                [options]="pieChartOptions"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)"></canvas>
+              </div>
+            </div>
+          </div>
       </mat-panel-description>
   
     </mat-expansion-panel>
   </mat-accordion>
-
-
-
-
-
 
 
 

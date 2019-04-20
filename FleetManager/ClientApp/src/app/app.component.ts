@@ -4,6 +4,8 @@ import { GPSCoordinates } from './gpsCoordinates';
 import { GpsService } from './gps.service';
 import { MapsService } from './maps.service';
 import { Component } from '@angular/core';
+import { Chart } from 'chart.js';
+
 
 import 'hammerjs';
 import { Car } from './car';
@@ -24,10 +26,26 @@ export class AppComponent {
   randomColorsArray : String[]=[];
   carsNames: Car[]=[];
   cars : CarData[]=[];
+  focusLatitude: Number = 52.40973;
+  focusLongitude: Number = 16.955353;
 
   constructor(private map: MapsService, private gpsService: GpsService, private carsService: CarService) {
 
   }
+  public pieChartLabels:string[] = ["Jazda", "Postój", "Pauza", ];
+  public pieChartData:number[] = [21, 39, 10];
+  public pieChartType:string = 'pie';
+  public pieChartOptions:any = {'backgroundColor': [
+               "#FF6384",
+            "#4BC0C0",
+            "#FFCE56",
+            "#E7E9ED",
+            "#36A2EB"
+            ],
+            "legend":{
+                "position":"bottom"
+              }
+          }
   onGetAllCars(){
     this.carsService.getCars().subscribe((r:any)=>{
       r.forEach(car => {
@@ -130,6 +148,22 @@ export class AppComponent {
     this.mapType="hybrid"
     console.log(this.mapType)
     console.log(this.cars)
+  }
+
+  setCarActive(car:CarData){
+    car.IsActive=true;
+    this.focusLatitude=car.LastLatitude;
+    this.focusLongitude=car.LastLongitude;
+
+  }
+
+  public chartClicked(e:any):void {
+    console.log(e);
+  }
+ 
+ // event on pie chart slice hover
+  public chartHovered(e:any):void {
+    console.log(e);
   }
   ngOnInit(){
     this.onGetAllGPS();

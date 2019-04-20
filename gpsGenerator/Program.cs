@@ -11,7 +11,7 @@ namespace gpsGenerator
     {
         static void Main(string[] args)
         {
-            var carId = 1007;
+            var carId = 3;
             var rnd = new Random();
             var resolution = 0.03;
             double lat = 52.4 + rnd.NextDouble() - 0.5;
