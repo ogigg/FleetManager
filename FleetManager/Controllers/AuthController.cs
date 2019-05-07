@@ -63,5 +63,26 @@ namespace TokenDemo.Controllers
             }
             return Unauthorized();
         }
+
+        [HttpPost]
+        [Route("register")]
+        public async Task<IActionResult> Register([FromBody] LoginModel model)
+        {
+            User usr = await userManager.FindByNameAsync(model.Username);
+            if (usr==null)
+            {
+                User user = new User()
+                {
+                    UserName = model.Username,
+                };
+                await userManager.AddPasswordAsync(user, model.Password);
+
+                await userManager.CreateAsync(user);
+                return Ok(user);
+            }
+
+            return Ok("User with this username already registered");
+
+        }
     }
 }

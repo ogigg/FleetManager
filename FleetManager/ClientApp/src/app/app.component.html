@@ -1,9 +1,13 @@
 <!-- <h1>Fleet Manager</h1> -->
+
 <mat-toolbar>
     <span>Fleet Manager</span>
   </mat-toolbar>
 <div class="row">
-    <div class="column">
+  <router-outlet></router-outlet>
+</div>
+<div class="row">
+  <div class="col-sm-7">
  
 <agm-map [latitude]="focusLatitude" [longitude]="focusLongitude" [mapTypeId]="mapType" [zoom]=9 usePanning=true>
 
