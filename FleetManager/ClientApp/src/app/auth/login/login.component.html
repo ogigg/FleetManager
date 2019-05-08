@@ -1,3 +1,22 @@
-<p>
-  login works!
-</p>
+<div class="example-container">
+  <mat-card >
+  <form [formGroup]="loginForm" (ngSubmit)="onFormSubmit(loginForm.value)">
+    <mat-form-field class="example-full-width">
+      <input matInput type="username" placeholder="User Name" formControlName="username"
+              [errorStateMatcher]="matcher">
+      <mat-error>
+        <span *ngIf="!loginForm.get('username').valid && loginForm.get('username').touched">Wpisz swoją nazwę użytkownika</span>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput type="password" placeholder="Hasło" formControlName="password"
+              [errorStateMatcher]="matcher">
+      <mat-error>
+        <span *ngIf="!loginForm.get('password').valid && loginForm.get('password').touched">Wpisz swoje hasło</span>
+      </mat-error>
+    </mat-form-field>
+        <button  type="submit" [disabled]="!loginForm.valid" mat-raised-button color="primary">Zaloguj się</button>
+        <button  type="button" mat-stroked-button routerLink="/register">Zarejestruj się</button>
+</form>
+</mat-card>
+</div>

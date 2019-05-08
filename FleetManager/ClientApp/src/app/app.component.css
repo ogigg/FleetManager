@@ -10,3 +10,11 @@ agm-map {
   height: 700px;
   width: 900px;
 }
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+.toolbar-spacer-5px {
+     margin-bottom: 5px;
+  }
+

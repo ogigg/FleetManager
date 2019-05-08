@@ -4,3 +4,8 @@ export class GPSCoordinates {
   public longitude: number;
   public carId: number;
   }
+export class FocusCoordinates {
+  
+  public latitude: Number;
+  public longitude: Number;
+  }

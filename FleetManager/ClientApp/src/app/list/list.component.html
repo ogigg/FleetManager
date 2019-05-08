@@ -1,3 +1,31 @@
-<p>
-  list works!
-</p>
+<mat-accordion>
+    <mat-expansion-panel *ngFor="let car of cars; let in = index" (opened)="setCarActive(car)" (closed)="car.IsActive = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{car.CarName}}
+        </mat-panel-title>
+        <mat-panel-description>
+          Id: {{car.CarId}}, ilosc wspolrzednych: {{car.GPSCoordinates.length}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+  
+      <mat-panel-description>
+        <div class="container">
+            Przejechany dystans: {{car.Distance | number}} km
+            Ostatnie wspolrzedne: {{car.LastLatitude | number: '2.6'}}, {{car.LastLongitude | number: '2.6'}}
+          <div class="row">
+            <div class="col-sm-9">
+            <canvas  baseChart
+                [data]="pieChartData"
+                [labels]="pieChartLabels"
+                [chartType]="pieChartType"
+                [options]="pieChartOptions"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)"></canvas>
+              </div>
+            </div>
+          </div>
+      </mat-panel-description>
+  
+    </mat-expansion-panel>
+  </mat-accordion>

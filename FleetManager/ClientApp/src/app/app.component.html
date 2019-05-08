@@ -1,77 +1,10 @@
 <!-- <h1>Fleet Manager</h1> -->
 
-<mat-toolbar>
-    <span>Fleet Manager</span>
+<mat-toolbar class="toolbar-spacer-5px">
+    <span routerLink="/home">Fleet Manager</span>
+    <span class="toolbar-spacer"></span>
+    <button mat-button routerLink="/login">Zaloguj</button>
+    <button mat-button routerLink="/register">Zarejestruj</button>
   </mat-toolbar>
-<div class="row">
+
   <router-outlet></router-outlet>
-</div>
-<div class="row">
-  <div class="col-sm-7">
- 
-<agm-map [latitude]="focusLatitude" [longitude]="focusLongitude" [mapTypeId]="mapType" [zoom]=9 usePanning=true>
-
-
-  <agm-polyline *ngFor="let car of cars; let in = index" [strokeColor]= "car.Color" 
-  [strokeOpacity]="car.IsActive ? 1 : 0.7"
-  [strokeWeight]="car.IsActive ? 10 : 5">
-    
-      <agm-marker
-      [latitude]= "car.LastLatitude"
-      [longitude]="car.LastLongitude"
-      [iconUrl]="
-      {url: car.IsActive ? './../assets/Images/car_icon_active.png' : './../assets/Images/car_icon.png',
-      scaledSize: {
-        width: 40,height: 40
-      }}"></agm-marker>
-    <!-- <agm-polyline-point [latitude]="lat" [longitude]="lng"></agm-polyline-point>
-    <agm-polyline-point [latitude]="lat2" [longitude]="lng2"></agm-polyline-point> -->
-    <agm-polyline-point *ngFor="let coordinate of cars[in].GPSCoordinates" [latitude]="coordinate.latitude"
-     [longitude]="coordinate.longitude"></agm-polyline-point>     
-
-</agm-polyline>
-</agm-map>
-<button mat-raised-button (click)="onSatelite()">Satelita</button>
-<button mat-raised-button (click)="onHybrid()">Hybryda</button>
-<button mat-raised-button (click)="onRoadMap()">Domyslna</button>
-</div>
-
-<div class="column">
-  <mat-accordion>
-    <mat-expansion-panel *ngFor="let car of cars; let in = index" (opened)="setCarActive(car)" (closed)="car.IsActive = false">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          {{car.CarName}}
-        </mat-panel-title>
-        <mat-panel-description>
-          Id: {{car.CarId}}, ilosc wspolrzednych: {{car.GPSCoordinates.length}}
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-  
-      <mat-panel-description>
-        <div class="container">
-            Przejechany dystans: {{car.Distance | number}} km
-            Ostatnie wspolrzedne: {{car.LastLatitude | number: '2.6'}}, {{car.LastLongitude | number: '2.6'}}
-          <div class="row">
-            <div class="col-sm-9">
-            <canvas  baseChart
-                [data]="pieChartData"
-                [labels]="pieChartLabels"
-                [chartType]="pieChartType"
-                [options]="pieChartOptions"
-                (chartHover)="chartHovered($event)"
-                (chartClick)="chartClicked($event)"></canvas>
-              </div>
-            </div>
-          </div>
-      </mat-panel-description>
-  
-    </mat-expansion-panel>
-  </mat-accordion>
-
-
-
-
-
-</div>
-</div>
