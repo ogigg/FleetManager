@@ -3,8 +3,9 @@
 <mat-toolbar class="toolbar-spacer-5px">
     <span routerLink="/home">Fleet Manager</span>
     <span class="toolbar-spacer"></span>
-    <button mat-button routerLink="/login">Zaloguj</button>
-    <button mat-button routerLink="/register">Zarejestruj</button>
+    <button *ngIf="!userName" mat-button routerLink="/login">Zaloguj</button>
+    <button *ngIf="userName" mat-button routerLink="/login">Witaj {{userName}}</button>
+    <button *ngIf="!userName" mat-button routerLink="/register">Zarejestruj</button>
   </mat-toolbar>
 
   <router-outlet></router-outlet>

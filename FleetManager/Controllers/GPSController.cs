@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using FleetManager.Data;
 using FleetManager.Models;
 using FleetManager.Resources;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FleetManager.Controllers
 {
@@ -26,6 +27,7 @@ namespace FleetManager.Controllers
         }
 
         // GET: api/GPS
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GPSCoordinatesResource>>> GetAllGpsCoordinateses()
         {
@@ -34,7 +36,7 @@ namespace FleetManager.Controllers
             return _mapper.Map<List<GPSCoordinates>, List<GPSCoordinatesResource>>(gpsList);
 
         }
-
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<GPSCoordinates>> GetGPSCoordinates(int id)
         {

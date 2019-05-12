@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit {
         }
       }, (err) => {
         console.log("ERROR");
-        console.log(err);
+        //console.log(err);
         this.snackBar.open('Wystąpił błąd podczas rejestracji!', 'OK',{ duration: 2000 });
       });
   }

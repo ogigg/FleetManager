@@ -7,6 +7,7 @@ export class CarData {
   public CarId: number;
   public CarName: String;
   public GPSCoordinates : GPSCoordinates[];
+  public ActiveGPSCoordinates : GPSCoordinates[];
   public Color: String;
   public IsActive: Boolean;
   public Distance: number;

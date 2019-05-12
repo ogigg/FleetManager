@@ -25,6 +25,12 @@ export class AuthService {
         tap(_ => this.log('login'))
       );
   }
+  getUserName(): Observable<any> {
+    return this.http.get<any>(this.apiUrl + 'getUserName')
+      .pipe(
+        tap(_ => this.log('getUserName'))
+      );
+  }
   
   
   private log(message: string) {

@@ -11,6 +11,35 @@
   
       <mat-panel-description>
         <div class="container">
+            <div class="row">
+                <mat-slide-toggle [(ngModel)]="moreOptions">Więcej opcji</mat-slide-toggle> 
+            </div>
+            <div class="row" *ngIf="moreOptions">
+              <div class="row center">
+                Wybierz z kiedy pokazać dane.
+              </div>
+              <div class="row">
+                <mat-form-field>
+                  <input matInput [matDatepicker]="picker" placeholder="Wybierz datę" [(ngModel)]="selectedDate" (ngModelChange)="onClickCalendar(car)">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker   #picker></mat-datepicker>
+                </mat-form-field>
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="onClickToday(car)">
+                    <span>Dzisiaj</span>
+                  </button>
+                  <button mat-menu-item  (click)="onClickThisWeek(car)">
+                    <span>Ostatni tydzień</span>
+                  </button>
+                  <button mat-menu-item (click)="onClickAll(car)">
+                    <span>Cały okres</span>
+                  </button>
+                </mat-menu>
+                </div>
+              </div>
             Przejechany dystans: {{car.Distance | number}} km
             Ostatnie wspolrzedne: {{car.LastLatitude | number: '2.6'}}, {{car.LastLongitude | number: '2.6'}}
           <div class="row">

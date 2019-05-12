@@ -32,7 +32,7 @@ export class HomeComponent {
 
     this.gpsService.getCoordinates().subscribe((r:any)=>{
       r.forEach(gps => {
-        this.coordinates.push({latitude:gps.latitude,longitude:gps.longitude,carId:gps.carId});
+        this.coordinates.push({latitude:gps.latitude,longitude:gps.longitude,carId:gps.carId, Timestamp:gps.timeStamp});
       });
       this.onGetAllCars();
     })
@@ -41,7 +41,7 @@ export class HomeComponent {
   fillCarsArray(){
     this.coordinates.forEach(gps=>{
       let arrayId = this.isCarInArray(gps.carId);
-      if(arrayId==-1){ 
+      if(arrayId==-1){ //Nowe auto
         let gpsArray = [gps]
         this.cars.push({
           CarId:gps.carId,
@@ -51,11 +51,13 @@ export class HomeComponent {
           Color:'#'+Math.floor(Math.random()*16777215).toString(16),
           GPSCoordinates:gpsArray,
           IsActive:false,
-          Distance: 0
+          Distance: 0,
+          ActiveGPSCoordinates: gpsArray
         });
       }
       else{ //auto w tabeli -> dodaje wspolrzedne
         this.cars[arrayId].GPSCoordinates.push(gps);
+        this.cars[arrayId].ActiveGPSCoordinates.push(gps);
         this.cars[arrayId].LastLatitude=gps.latitude;
         this.cars[arrayId].LastLongitude=gps.longitude;
       }
@@ -77,12 +79,8 @@ export class HomeComponent {
         deltaY=gps.longitude;
 
       });
-      console.log(distanceX);
-      console.log(distanceY);
-      console.log(Math.pow(distanceX,2));
       let distance=(Math.sqrt(Math.pow(distanceX,2)+Math.pow(distanceY,2)))*110.57; //110.57km - 1 degree
       car.Distance=distance;
-      console.log("dystans: "+distance);
     });
 
 
@@ -116,22 +114,14 @@ export class HomeComponent {
 
   }
 
-  public chartClicked(e:any):void {
-    console.log(e);
-  }
- 
- // event on pie chart slice hover
-  public chartHovered(e:any):void {
-    console.log(e);
-  }
   ngOnInit(){
     this.onGetAllGPS();
   }
   getFocusCoordinates($event: FocusCoordinates) {
     this.focusLatitude = $event.latitude;
     this.focusLongitude = $event.longitude;
-    console.log($event)
-    console.log(this.focusLatitude)
+    //console.log($event)
+    //console.log(this.focusLatitude)
   }
 
 

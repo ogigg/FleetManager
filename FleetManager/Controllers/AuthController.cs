@@ -7,7 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using FleetManager.Models;
 using FleetManager.Resources;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -32,6 +34,26 @@ namespace TokenDemo.Controllers
         {
             return Ok("Authorized");
         }
+
+
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [HttpGet]
+        [Route("getUserName")]
+        public IActionResult GetUserName()
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            IEnumerable<Claim> claim = identity.Claims;
+            var usernameClaim = claim.FirstOrDefault();
+            var userName = usernameClaim.Value;
+
+            if (userName == null)
+            {
+                return BadRequest();
+            }
+            return Ok(userName);
+        }
+
+
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
@@ -80,9 +102,11 @@ namespace TokenDemo.Controllers
                 await userManager.CreateAsync(user);
                 return Ok(user);
             }
-
-            return Ok("User with this username already registered");
+            
+            return BadRequest("User already registered!"); 
 
         }
+
+
     }
 }

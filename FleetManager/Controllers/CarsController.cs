@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FleetManager.Data;
 using FleetManager.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FleetManager.Controllers
 {
@@ -22,6 +23,7 @@ namespace FleetManager.Controllers
         }
 
         // GET: api/Cars
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Car>>> GetCars()
         {
@@ -29,6 +31,7 @@ namespace FleetManager.Controllers
         }
 
         // GET: api/Cars/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<Car>> GetCar(int id)
         {
@@ -43,6 +46,7 @@ namespace FleetManager.Controllers
         }
 
         // PUT: api/Cars/5
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCar(int id, Car car)
         {
@@ -73,6 +77,7 @@ namespace FleetManager.Controllers
         }
 
         // POST: api/Cars
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Car>> PostCar(Car car)
         {
@@ -83,6 +88,7 @@ namespace FleetManager.Controllers
         }
 
         // DELETE: api/Cars/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Car>> DeleteCar(int id)
         {

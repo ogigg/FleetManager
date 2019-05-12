@@ -9,6 +9,7 @@ import { Chart } from 'chart.js';
 
 import 'hammerjs';
 import { Car } from './car';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-root',
@@ -19,9 +20,14 @@ import { Car } from './car';
 
 export class AppComponent {
   title = 'Fleet Manager';
-
-  constructor(private map: MapsService, private gpsService: GpsService, private carsService: CarService) {  }
-
-  ngOnInit(){  }
+  userName:String=null;
+  constructor( private authService: AuthService) {  }
+  
+  ngOnInit(){ 
+    console.log("test")
+    this.authService.getUserName().subscribe(res => {console.log(res); 
+      this.userName = res});
+   }
+  
 
 }
