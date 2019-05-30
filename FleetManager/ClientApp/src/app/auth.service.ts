@@ -10,7 +10,7 @@ import { catchError, tap } from 'rxjs/operators';
 export class AuthService {
 
   constructor(private http: HttpClient) { }
-  apiUrl = 'http://localhost:9220/api/auth/';
+  apiUrl = 'http://localhost:5000/api/auth/';
 
   login(data: any): Observable<any> {
     return this.http.post<any>(this.apiUrl + 'login', data)

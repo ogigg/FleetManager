@@ -4,6 +4,9 @@ import { Car } from '../car';
 import { CarData } from '../carData';
 import { GpsService } from '../gps.service';
 import { CarService } from '../car.service';
+import { SignalRService } from '.././services/signal-r.service';
+import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-home',
@@ -18,13 +21,14 @@ export class HomeComponent {
   randomColorsArray : String[]=[];
   carsNames: Car[]=[];
   cars : CarData[]=[];
-  constructor(private gpsService: GpsService, private carsService: CarService) {}
+  constructor(private gpsService: GpsService, private carsService: CarService,
+    public signalRService: SignalRService, private http: HttpClient) {}
   onGetAllCars(){
     this.carsService.getCars().subscribe((r:any)=>{
       r.forEach(car => {
          this.carsNames.push({Id:car.id,Name:car.carName});
       });
-      this.fillCarsArray();
+      this.fillCarsArray(this.coordinates);
       //console.log(this.carsNames)
     })
   }
@@ -32,15 +36,22 @@ export class HomeComponent {
 
     this.gpsService.getCoordinates().subscribe((r:any)=>{
       r.forEach(gps => {
-        this.coordinates.push({latitude:gps.latitude,longitude:gps.longitude,carId:gps.carId, Timestamp:gps.timeStamp});
+        this.coordinates.push({latitude:gps.latitude,longitude:gps.longitude,carId:gps.carId, timeStamp:gps.timeStamp});
       });
       this.onGetAllCars();
     })
   }
 
-  fillCarsArray(){
-    this.coordinates.forEach(gps=>{
-      let arrayId = this.isCarInArray(gps.carId);
+  fillCarsArray(coordinates: GPSCoordinates[]){
+    coordinates.forEach(gps=>{
+      this.addGPSToCarArray(gps);
+    })
+    //console.log(this.cars)
+    this.calculateDistance();
+  }
+
+  private addGPSToCarArray(gps:GPSCoordinates) {
+    let arrayId = this.isCarInArray(gps.carId);
       if(arrayId==-1){ //Nowe auto
         let gpsArray = [gps]
         this.cars.push({
@@ -61,11 +72,8 @@ export class HomeComponent {
         this.cars[arrayId].LastLatitude=gps.latitude;
         this.cars[arrayId].LastLongitude=gps.longitude;
       }
-    })
-    console.log(this.cars)
-    this.calculateDistance();
-
   }
+
   calculateDistance(){
     this.cars.forEach(car => {
       let deltaX=car.GPSCoordinates[0].latitude;
@@ -116,13 +124,19 @@ export class HomeComponent {
 
   ngOnInit(){
     this.onGetAllGPS();
+    this.signalRService.startConnection();
+    this.signalRService.addSignalRListener();
+    this.subscribeToEvents();
   }
   getFocusCoordinates($event: FocusCoordinates) {
     this.focusLatitude = $event.latitude;
     this.focusLongitude = $event.longitude;
-    //console.log($event)
-    //console.log(this.focusLatitude)
   }
 
-
+  private subscribeToEvents(): void {  
+    this.signalRService.messageReceived.subscribe((gps: GPSCoordinates) => {  
+      console.log(gps)
+      this.addGPSToCarArray(gps);
+    });  
+  }  
 }

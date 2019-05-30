@@ -9,6 +9,6 @@ export class CarService {
   constructor(private http: HttpClient) { }
 
   getCars(){
-    return this.http.get('http://localhost:9220/api/Cars')
+    return this.http.get('http://localhost:5000/api/Cars')
   }
 }

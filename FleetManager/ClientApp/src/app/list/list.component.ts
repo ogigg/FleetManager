@@ -47,7 +47,7 @@ export class ListComponent implements OnInit {
     this.selectedDate=new Date();
     car.ActiveGPSCoordinates=[];
     car.GPSCoordinates.forEach((gps:GPSCoordinates) => {
-      let gpsTimestamp = new Date(gps.Timestamp); 
+      let gpsTimestamp = new Date(gps.timeStamp); 
       if(this.isToday(gpsTimestamp)){
         car.ActiveGPSCoordinates.push(gps);
       }
@@ -58,7 +58,7 @@ export class ListComponent implements OnInit {
   onClickThisWeek(car:CarData){
     car.ActiveGPSCoordinates=[];
     car.GPSCoordinates.forEach((gps:GPSCoordinates) => {
-      let gpsTimestamp = new Date(gps.Timestamp); 
+      let gpsTimestamp = new Date(gps.timeStamp); 
       if(this.isLastWeek(gpsTimestamp)){
         car.ActiveGPSCoordinates.push(gps);
       }
@@ -69,7 +69,7 @@ export class ListComponent implements OnInit {
     console.log("KALENDARZ KLIKLO")
     car.ActiveGPSCoordinates=[];
     car.GPSCoordinates.forEach((gps:GPSCoordinates) => {
-      let gpsTimestamp = new Date(gps.Timestamp); 
+      let gpsTimestamp = new Date(gps.timeStamp); 
       if(this.isDate(gpsTimestamp,this.selectedDate)){
         car.ActiveGPSCoordinates.push(gps);
       }

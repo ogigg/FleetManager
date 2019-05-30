@@ -9,6 +9,6 @@ export class GpsService {
   constructor(private http: HttpClient) { }
 
   getCoordinates(){
-    return this.http.get('http://localhost:9220/api/GPS')
+    return this.http.get('http://localhost:5000/api/GPS')
   }
 }

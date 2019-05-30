@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CarData } from '../carData';
 
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -16,6 +17,7 @@ export class MapComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
+
   }
   onSatelite(){
     this.mapType="satellite"

@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FleetManager.Data;
+using FleetManager.Hubs;
 using FleetManager.Models;
 using FleetManager.Resources;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 
 namespace FleetManager.Controllers
 {
@@ -19,15 +21,16 @@ namespace FleetManager.Controllers
     {
         private readonly IMapper _mapper;
         private readonly ApplicationDbContext _context;
-
-        public GPSController(ApplicationDbContext context, IMapper mapper)
+        private IHubContext<SignalRHub, ISignalR> _hub;
+        public GPSController(ApplicationDbContext context, IMapper mapper, IHubContext<SignalRHub, ISignalR> hub)
         {
             _context = context;
             _mapper = mapper;
+            _hub = hub;
         }
 
         // GET: api/GPS
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GPSCoordinatesResource>>> GetAllGpsCoordinateses()
         {
@@ -62,9 +65,17 @@ namespace FleetManager.Controllers
             gpsDb.Car = await _context.Cars.FindAsync(gpsCoortinates.CarId);
             _context.GpsCoordinateses.Add(gpsDb);
             await _context.SaveChangesAsync();
-
+            await _hub.Clients.All.SendAsync(gpsCoortinates);
             return CreatedAtAction("GetGPSCoordinates", new { id = gpsCoortinates.Id }, gpsCoortinates);
         }
+
+        //[HttpPost]
+        //[Route("/signalr")]
+        //public IActionResult PostToSignalR()
+        //{
+        //    _hub.Clients.All.SendAsync("test");
+        //    return Ok("send!");
+        //}
 
     }
 }

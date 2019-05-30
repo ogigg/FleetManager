@@ -11,14 +11,17 @@ namespace gpsGenerator
     {
         static void Main(string[] args)
         {
-            var carId = 1;
+            var carId = 2;
             var rnd = new Random();
             var resolution = 0.03;
             double lat = 52.4 + rnd.NextDouble() - 0.5;
             double lon = 16.9 + rnd.NextDouble()-0.5;
             Console.WriteLine("Generuję dane dla samochodu " + carId);
-            for (int i = 0; i < 50; i++)
+            Console.WriteLine("Wcisnij klawisz aby zaczac wysylac!");
+            Console.ReadKey();
+            for (int i = 0; i < 20; i++)
             {
+                
                 double headingx = rnd.NextDouble() - 0.5;
                 double headingy = rnd.NextDouble() - 0.5;
 
@@ -27,7 +30,7 @@ namespace gpsGenerator
 
                 Console.WriteLine("Latitude: " + lat + ", Longitude: " + lon);
 
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:9220/api/GPS");
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:5000/api/GPS");
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
@@ -54,7 +57,7 @@ namespace gpsGenerator
                     var result = streamReader.ReadToEnd();
                     Console.WriteLine(result);
                 }
-
+                System.Threading.Thread.Sleep(5000);
 
 
 
