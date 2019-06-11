@@ -60,6 +60,20 @@ namespace FleetManager.Controllers
         public async Task<ActionResult<GPSCoordinates>> PostGPSCoordinates(GPSCoordinatesResource gpsCoortinates)
         {
             gpsCoortinates.TimeStamp=DateTime.Now;
+            if (gpsCoortinates.Speed == 0) //Wyznaczenie prędkości na podstawie ostatniego wpisu
+            {
+                var gps = GetLastGPSCoordinate(gpsCoortinates.CarId);
+                double deltaTimeSeconds = gpsCoortinates.TimeStamp.Subtract(gps.TimeStamp).TotalSeconds;
+                if (deltaTimeSeconds < 60)//Jeśli poprzedni wpis był mniej niż 60 sekund temu oblicz prędkość
+                {
+                    double deltaX=Math.Abs(gpsCoortinates.Latitude - gps.Latitude);
+                    double deltaY = Math.Abs(gpsCoortinates.Longitude - gps.Longitude);
+                    double distance = Math.Sqrt(Math.Pow(deltaX, 2) + Math.Pow(deltaY, 2)) * 110.57;
+                    //double speedD = ((distance / deltaTimeSeconds) * 3600);
+                    int speed = (int)((distance / deltaTimeSeconds) * 3600); 
+                    gpsCoortinates.Speed = speed;
+                }
+            }
             GPSCoordinates gpsDb = _mapper.Map<GPSCoordinates>(gpsCoortinates);
             gpsDb.CarId = gpsCoortinates.CarId;
             gpsDb.Car = await _context.Cars.FindAsync(gpsCoortinates.CarId);
@@ -76,6 +90,14 @@ namespace FleetManager.Controllers
         //    _hub.Clients.All.SendAsync("test");
         //    return Ok("send!");
         //}
+        [HttpGet("last/{carId}")]
+        public GPSCoordinatesResource GetLastGPSCoordinate(int carId)
+        {
+            
+            var gps =  _context.GpsCoordinateses.Where(c => c.CarId == carId).LastOrDefault() ;
 
+            return _mapper.Map<GPSCoordinates, GPSCoordinatesResource>(gps);
+
+        }
     }
 }

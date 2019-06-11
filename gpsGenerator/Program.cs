@@ -7,15 +7,40 @@ using Newtonsoft.Json;
 
 namespace gpsGenerator
 {
+    public class GPSCoordinatesResource
+    {
+        public int Id { get; set; }
+        public double Longitude { get; set; }
+        public double Latitude { get; set; }
+        public int Speed { get; set; }
+        public DateTime TimeStamp { get; set; }
+        public int CarId { get; set; }
+    }
+
     class Program
     {
         static void Main(string[] args)
         {
             var carId = 2;
             var rnd = new Random();
-            var resolution = 0.03;
-            double lat = 52.4 + rnd.NextDouble() - 0.5;
-            double lon = 16.9 + rnd.NextDouble()-0.5;
+            var resolution = 0.003;
+            string responseText = String.Empty;
+            GPSCoordinatesResource gps;
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:5000/api/GPS/last/"+ carId);
+            using (HttpWebResponse response = (HttpWebResponse)httpWebRequest.GetResponse())
+            using (Stream stream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                responseText = reader.ReadToEnd();
+                gps=Newtonsoft.Json.JsonConvert.DeserializeObject<GPSCoordinatesResource>(responseText);
+            }
+
+            Console.WriteLine(responseText);
+            Console.WriteLine(gps.Latitude);
+            //double lat = 52.4 + rnd.NextDouble() - 0.5;
+            double lat = gps.Latitude;
+            //double lon = 16.9 + rnd.NextDouble()-0.5;
+            double lon = gps.Longitude;
             Console.WriteLine("Generuję dane dla samochodu " + carId);
             Console.WriteLine("Wcisnij klawisz aby zaczac wysylac!");
             Console.ReadKey();
@@ -30,7 +55,7 @@ namespace gpsGenerator
 
                 Console.WriteLine("Latitude: " + lat + ", Longitude: " + lon);
 
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:5000/api/GPS");
+                httpWebRequest = (HttpWebRequest)WebRequest.Create("http://localhost:5000/api/GPS");
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
