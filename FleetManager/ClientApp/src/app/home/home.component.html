@@ -1,8 +1,10 @@
-<div class="row">
-    <div class="column">  
+<div class="container-fluid">
+<div class="row ">
+    <div class="column col-lg-7">  
         <app-map [cars]="cars" [focusLongitude]="focusLongitude" [focusLatitude]="focusLatitude"></app-map>
     </div>
-    <div class="column">  
+    <div class="column col-lg-5">  
         <app-list [cars]="cars"  (focusCoordinates)="getFocusCoordinates($event)"></app-list>
     </div>
+</div>
 </div>

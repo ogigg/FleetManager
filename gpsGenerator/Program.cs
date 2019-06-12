@@ -21,7 +21,7 @@ namespace gpsGenerator
     {
         static void Main(string[] args)
         {
-            var carId = 3;
+            var carId = 1002;
             var rnd = new Random();
             var resolution = 0.003;
             string responseText = String.Empty;
@@ -51,6 +51,7 @@ namespace gpsGenerator
             {
                 if (i<10) speed = speed + 10;
                 else speed = speed - 10;
+                if (speed < 0) speed = 0;
 
                 
                 double offset = (rnd.NextDouble() - 0.5) * 0.0005;

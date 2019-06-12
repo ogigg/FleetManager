@@ -5,16 +5,21 @@
           {{car.CarName}}
         </mat-panel-title>
         <mat-panel-description>
-          Id: {{car.CarId}}, ilosc wspolrzednych: {{car.GPSCoordinates.length}}
+          Id: {{car.CarId}}, ilość współrzędnych: {{car.GPSCoordinates.length}}
         </mat-panel-description>
       </mat-expansion-panel-header>
   
       <mat-panel-description>
         <div class="container">
             <div class="row">
-                <mat-slide-toggle [(ngModel)]="moreOptions">Więcej opcji</mat-slide-toggle> 
+                Przejechany dystans: {{car.Distance | number}} km
+                Ostatnie współrzedne: {{car.LastLatitude | number: '2.6'}}, {{car.LastLongitude | number: '2.6'}}
             </div>
-            <div class="row" *ngIf="moreOptions">
+            <div class="row">
+                <mat-slide-toggle [(ngModel)]="moreOptions" (click)="onMoreOptions(car)">Więcej opcji</mat-slide-toggle> 
+            </div>
+            <div *ngIf="moreOptions">
+              <div class="column">
               <div class="row center">
                 Wybierz z kiedy pokazać dane.
               </div>
@@ -38,22 +43,23 @@
                     <span>Cały okres</span>
                   </button>
                 </mat-menu>
+              </div>
+              </div>
+              <div class="column">
+
+                <canvas  baseChart class="chart"
+                    [data]="pieChartData"
+                    [labels]="pieChartLabels"
+                    [chartType]="pieChartType"
+                    [options]="pieChartOptions"
+                    [legend]="pieChartLegend"
+                    (chartHover)="chartHovered($event)"
+                    (chartClick)="chartClicked($event)"></canvas>
                 </div>
               </div>
-            Przejechany dystans: {{car.Distance | number}} km
-            Ostatnie wspolrzedne: {{car.LastLatitude | number: '2.6'}}, {{car.LastLongitude | number: '2.6'}}
-          <div class="row">
-            <div class="col-sm-9">
-            <canvas  baseChart
-                [data]="pieChartData"
-                [labels]="pieChartLabels"
-                [chartType]="pieChartType"
-                [options]="pieChartOptions"
-                (chartHover)="chartHovered($event)"
-                (chartClick)="chartClicked($event)"></canvas>
               </div>
-            </div>
-          </div>
+            
+          
       </mat-panel-description>
   
     </mat-expansion-panel>

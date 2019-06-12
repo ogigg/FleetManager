@@ -6,7 +6,6 @@ import { MapsService } from './maps.service';
 import { Component, ViewChild } from '@angular/core';
 import { Chart } from 'chart.js';
 
-
 import 'hammerjs';
 import { Car } from './car';
 import { AuthService } from './auth.service';

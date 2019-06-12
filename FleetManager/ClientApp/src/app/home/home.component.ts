@@ -11,6 +11,7 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
   mapType: String ="roadmap"; 
@@ -137,6 +138,8 @@ export class HomeComponent {
     this.signalRService.messageReceived.subscribe((gps: GPSCoordinates) => {  
       console.log(gps)
       this.addGPSToCarArray(gps);
-    });  
+      this.calculateDistance();  
+    });
+    
   }  
 }

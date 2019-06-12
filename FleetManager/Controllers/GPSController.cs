@@ -63,16 +63,20 @@ namespace FleetManager.Controllers
             if (gpsCoortinates.Speed == 0) //Wyznaczenie prędkości na podstawie ostatniego wpisu
             {
                 var gps = GetLastGPSCoordinate(gpsCoortinates.CarId);
-                double deltaTimeSeconds = gpsCoortinates.TimeStamp.Subtract(gps.TimeStamp).TotalSeconds;
-                if (deltaTimeSeconds < 60)//Jeśli poprzedni wpis był mniej niż 60 sekund temu oblicz prędkość
+                if (gps != null)
                 {
-                    double deltaX=Math.Abs(gpsCoortinates.Latitude - gps.Latitude);
-                    double deltaY = Math.Abs(gpsCoortinates.Longitude - gps.Longitude);
-                    double distance = Math.Sqrt(Math.Pow(deltaX, 2) + Math.Pow(deltaY, 2)) * 110.57;
-                    //double speedD = ((distance / deltaTimeSeconds) * 3600);
-                    int speed = (int)((distance / deltaTimeSeconds) * 3600); 
-                    gpsCoortinates.Speed = speed;
+                    double deltaTimeSeconds = gpsCoortinates.TimeStamp.Subtract(gps.TimeStamp).TotalSeconds;
+                    if (deltaTimeSeconds < 60) //Jeśli poprzedni wpis był mniej niż 60 sekund temu oblicz prędkość
+                    {
+                        double deltaX = Math.Abs(gpsCoortinates.Latitude - gps.Latitude);
+                        double deltaY = Math.Abs(gpsCoortinates.Longitude - gps.Longitude);
+                        double distance = Math.Sqrt(Math.Pow(deltaX, 2) + Math.Pow(deltaY, 2)) * 110.57;
+                        //double speedD = ((distance / deltaTimeSeconds) * 3600);
+                        int speed = (int) ((distance / deltaTimeSeconds) * 3600);
+                        gpsCoortinates.Speed = speed;
+                    }
                 }
+                
             }
             GPSCoordinates gpsDb = _mapper.Map<GPSCoordinates>(gpsCoortinates);
             gpsDb.CarId = gpsCoortinates.CarId;

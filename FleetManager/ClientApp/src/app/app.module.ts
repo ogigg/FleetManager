@@ -11,7 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCheckboxModule, MatFormFieldModule} from '@angular/material';
+import {MatButtonModule, MatCheckboxModule } from '@angular/material';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { ChartsModule } from 'ng2-charts';
 import { LoginComponent } from './auth/login/login.component';
