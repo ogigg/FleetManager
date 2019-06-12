@@ -1,19 +1,29 @@
 <agm-map [latitude]="focusLatitude" [longitude]="focusLongitude" [mapTypeId]="mapType" [zoom]=9 usePanning=true>
-  <agm-polyline *ngFor="let car of cars; let in = index" [strokeColor]= "car.Color" 
-  [strokeOpacity]="car.IsActive ? 1 : 0.7"
-  [strokeWeight]="car.IsActive ? 10 : 5"> 
-      <agm-marker
+  <div *ngFor="let car of cars; let in = index" >
+
+
+  <agm-polyline *ngFor="let coordinate of car.ActiveGPSCoordinates; let i = index;" 
+    [strokeOpacity]="car.IsActive ? 1 : 0.7"
+    [strokeWeight]="car.IsActive ? 10 : 5" 
+    [strokeColor]= "car.IsActive ? getColor(coordinate.speed) : car.Color" >
+    <agm-polyline-point  [latitude]="coordinate.latitude" [longitude]="coordinate.longitude">
+    </agm-polyline-point>     
+    <ng-container *ngIf="car.ActiveGPSCoordinates[i-1]">
+        <agm-polyline-point [latitude]="car.ActiveGPSCoordinates[i-1].latitude" [longitude]="car.ActiveGPSCoordinates[i-1].longitude">
+        </agm-polyline-point>
+      </ng-container>
+  </agm-polyline>
+
+   <agm-marker
       [latitude]= "car.LastLatitude"
       [longitude]="car.LastLongitude"
       [iconUrl]="
       {url: car.IsActive ? './../../assets/Images/car_icon_active.png' : './../../assets/Images/car_icon.png',
       scaledSize: {
         width: 40,height: 40
-      }}"></agm-marker>
-    <agm-polyline-point *ngFor="let coordinate of cars[in].ActiveGPSCoordinates" [latitude]="coordinate.latitude"
-      [longitude]="coordinate.longitude"></agm-polyline-point>     
-
-  </agm-polyline>
+      }}">
+    </agm-marker>
+</div>
 </agm-map>
 <button mat-raised-button (click)="onSatelite()">Satelita</button>
 <button mat-raised-button (click)="onHybrid()">Hybryda</button>

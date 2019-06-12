@@ -4,6 +4,7 @@ export class GPSCoordinates {
   public longitude: number;
   public timeStamp: Date;
   public carId: number;
+  public speed: number;
   }
 export class FocusCoordinates {
   

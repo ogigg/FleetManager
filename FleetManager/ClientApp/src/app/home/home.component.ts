@@ -36,7 +36,7 @@ export class HomeComponent {
 
     this.gpsService.getCoordinates().subscribe((r:any)=>{
       r.forEach(gps => {
-        this.coordinates.push({latitude:gps.latitude,longitude:gps.longitude,carId:gps.carId, timeStamp:gps.timeStamp});
+        this.coordinates.push({latitude:gps.latitude,longitude:gps.longitude,carId:gps.carId, timeStamp:gps.timeStamp, speed: gps.speed});
       });
       this.onGetAllCars();
     })
@@ -46,7 +46,7 @@ export class HomeComponent {
     coordinates.forEach(gps=>{
       this.addGPSToCarArray(gps);
     })
-    //console.log(this.cars)
+    console.log(this.cars)
     this.calculateDistance();
   }
 

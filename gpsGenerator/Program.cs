@@ -21,7 +21,7 @@ namespace gpsGenerator
     {
         static void Main(string[] args)
         {
-            var carId = 2;
+            var carId = 3;
             var rnd = new Random();
             var resolution = 0.003;
             string responseText = String.Empty;
@@ -41,17 +41,21 @@ namespace gpsGenerator
             double lat = gps.Latitude;
             //double lon = 16.9 + rnd.NextDouble()-0.5;
             double lon = gps.Longitude;
+            int speed = 0;
             Console.WriteLine("Generuję dane dla samochodu " + carId);
             Console.WriteLine("Wcisnij klawisz aby zaczac wysylac!");
             Console.ReadKey();
+            double headingx = rnd.NextDouble() - 0.5;
+            double headingy = rnd.NextDouble() - 0.5;
             for (int i = 0; i < 20; i++)
             {
-                
-                double headingx = rnd.NextDouble() - 0.5;
-                double headingy = rnd.NextDouble() - 0.5;
+                if (i<10) speed = speed + 10;
+                else speed = speed - 10;
 
-                lat = lat + resolution * headingx;
-                lon = lon + resolution * headingy;
+                
+                double offset = (rnd.NextDouble() - 0.5) * 0.0005;
+                lat = lat + resolution * headingx + offset;
+                lon = lon + resolution * headingy + offset;
 
                 Console.WriteLine("Latitude: " + lat + ", Longitude: " + lon);
 
@@ -66,7 +70,8 @@ namespace gpsGenerator
                     {
                         longitude = lon,
                         latitude = lat,
-                        CarId = carId
+                        CarId = carId,
+                        speed = speed
 
                     };
                     var strGps = JsonConvert.SerializeObject(gpsCoordinates);
